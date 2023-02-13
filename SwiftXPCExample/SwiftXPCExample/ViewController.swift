@@ -45,7 +45,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func uppercase(_ sender: Any?) {
-        stringManipulator?.uppercase(textView.string ?? "") { [weak self] (reply) in
+        stringManipulator?.uppercase(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }
@@ -53,7 +53,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func lowercase(_ sender: Any?) {
-        stringManipulator?.lowercase(textView.string ?? "") { [weak self] (reply) in
+        stringManipulator?.lowercase(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }
@@ -61,7 +61,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func capitalize(_ sender: Any?) {
-        stringManipulator?.capitalize(textView.string ?? "") { [weak self] (reply) in
+        stringManipulator?.capitalize(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }
