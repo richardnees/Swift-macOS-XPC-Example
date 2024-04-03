@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:XPCSupport/XPCSupport.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StringManipulation/StringManipulation.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SwiftXPCExample/SwiftXPCExample.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Packages">
+      <FileRef
+         location = "group:Packages/XPCSupport">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "XPC">
+      <FileRef
+         location = "group:XPC/StringManipulation/StringManipulation.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Applications">
+      <FileRef
+         location = "group:Applications/SwiftUIXPCExample/SwiftUIXPCExample.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Applications/SwiftXPCExample/SwiftXPCExample.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>
