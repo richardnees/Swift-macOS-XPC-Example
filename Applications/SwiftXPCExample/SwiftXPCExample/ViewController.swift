@@ -2,7 +2,10 @@ import Cocoa
 import XPCSupport
 
 class ViewController: NSViewController {
-    private let controller = StringManipulationXPCController()
+    private let controller = XPCController<XPCStringManipulationService>(
+        connection: NSXPCConnection(serviceName: XPCStringManipulationServiceName),
+        interface: NSXPCInterface(with: XPCStringManipulationService.self)
+    )
 
     @IBOutlet var textView: NSTextView!
     
@@ -10,15 +13,15 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let xpcErrorHandler: ((Error) -> Void) = { error in
+        let errorHandler: ((Error) -> Void) = { error in
             print(error.localizedDescription)
         }
 
-        controller.setup(xpcErrorHandler: xpcErrorHandler)
+        controller.setup(errorHandler: errorHandler)
     }
     
     @IBAction func uppercase(_ sender: Any?) {
-        controller.stringManipulator?.uppercase(textView.string) { [weak self] (reply) in
+        controller.service?.uppercase(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }
@@ -26,7 +29,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func lowercase(_ sender: Any?) {
-        controller.stringManipulator?.lowercase(textView.string) { [weak self] (reply) in
+        controller.service?.lowercase(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }
@@ -34,7 +37,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func capitalize(_ sender: Any?) {
-        controller.stringManipulator?.capitalize(textView.string) { [weak self] (reply) in
+        controller.service?.capitalize(textView.string) { [weak self] (reply) in
             DispatchQueue.main.async {
                 self?.textView.string = reply
             }

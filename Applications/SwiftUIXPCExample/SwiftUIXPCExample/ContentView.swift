@@ -4,7 +4,10 @@ import XPCSupport
 struct ContentView: View {
     @State private var content: String = "Hello world"
 
-    private let controller = StringManipulationXPCController()
+    private let controller = XPCController<XPCStringManipulationService>(
+        connection: NSXPCConnection(serviceName: XPCStringManipulationServiceName),
+        interface: NSXPCInterface(with: XPCStringManipulationService.self)
+    )
 
     var body: some View {
         VStack {
@@ -12,7 +15,7 @@ struct ContentView: View {
             HStack {
                 Button {
                     Task {
-                        if let reply = await controller.stringManipulator?.uppercase(content) {
+                        if let reply = await controller.service?.uppercase(content) {
                             content = reply
                         }
                     }
@@ -23,7 +26,7 @@ struct ContentView: View {
 
                 Button {
                     Task {
-                        if let reply = await controller.stringManipulator?.lowercase(content) {
+                        if let reply = await controller.service?.lowercase(content) {
                             content = reply
                         }
                     }
@@ -34,7 +37,7 @@ struct ContentView: View {
 
                 Button {
                     Task {
-                        if let reply = await controller.stringManipulator?.capitalize(content) {
+                        if let reply = await controller.service?.capitalize(content) {
                             content = reply
                         }
                     }
@@ -47,11 +50,11 @@ struct ContentView: View {
         .padding()
         .navigationTitle("String Manipulation")
         .onAppear {
-            let xpcErrorHandler: ((Error) -> Void) = { error in
+            let errorHandler: ((Error) -> Void) = { error in
                 print(error.localizedDescription)
             }
 
-            controller.setup(xpcErrorHandler: xpcErrorHandler)
+            controller.setup(errorHandler: errorHandler)
         }
     }
 }
